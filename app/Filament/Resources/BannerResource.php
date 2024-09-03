@@ -44,6 +44,7 @@ class BannerResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->reorderable('sort')->defaultSort('sort')
             ->columns([
                 Tables\Columns\TextColumn::make('type')
                     ->searchable(),

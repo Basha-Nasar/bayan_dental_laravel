@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('img_ar');
             $table->string('mob_img_en')->nullable();
             $table->string('mob_img_ar')->nullable();
+            $table->integer('sort')->default(0);
             $table->boolean('is_active')->default(0);
             $table->softDeletes();
             $table->timestamps();
