@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ServiceResource\Pages;
 use App\Filament\Resources\ServiceResource\RelationManagers;
 use App\Models\Service;
+use App\Models\ServiceCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -19,13 +20,21 @@ class ServiceResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+
+
+    protected static ?string $navigationGroup = 'Service';
+
+
+
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('category')
+                Forms\Components\Select::make('service_category_id')
                     ->required()
-                    ->relationship(titleAttribute: 'name_en')
+                    ->label("Category")
+                    ->options(ServiceCategory::all()->pluck('name_en', 'id'))
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('name_en')
                     ->required()
@@ -33,24 +42,12 @@ class ServiceResource extends Resource
                 Forms\Components\TextInput::make('name_ar')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('desc_en')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('desc_ar')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('img_en')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('img_ar')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('sort')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                Forms\Components\Toggle::make('is_active')
+                Forms\Components\RichEditor::make('desc_en')
                     ->required(),
+                Forms\Components\RichEditor::make('desc_ar')
+                    ->required(),
+                Forms\Components\FileUpload::make('img_en')->required(),
+                Forms\Components\FileUpload::make('img_ar')->required(),
             ]);
     }
 
@@ -58,28 +55,17 @@ class ServiceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->label('ID')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('service_category_id')
+
+                Tables\Columns\TextColumn::make('category.name_en')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name_en')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name_ar')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('desc_en')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('desc_ar')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('img_en')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('img_ar')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('sort')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->boolean(),
+                Tables\Columns\ImageColumn::make('img_en'),
+                Tables\Columns\ImageColumn::make('img_ar'),
+
+                Tables\Columns\ToggleColumn::make('is_active'),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
