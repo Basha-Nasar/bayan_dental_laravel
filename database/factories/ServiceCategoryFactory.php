@@ -17,7 +17,10 @@ class ServiceCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title_en' => $this->faker->firstName(),
+            'title_ar' => $this->faker->firstName(),
+            'name_en' => $this->faker->firstName(),
+            'name_ar' => $this->faker->firstName(),
         ];
     }
 }
