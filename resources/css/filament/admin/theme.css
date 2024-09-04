@@ -5,5 +5,10 @@
 
 
 .fi-sidebar-nav-groups {
- @apply gap-y-2;
+    @apply gap-y-2;
+}
+
+
+.fi-sidebar {
+    @apply  xl:w-80;
 }
