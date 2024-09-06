@@ -18,8 +18,9 @@ class ServiceOfferResource extends Resource
 {
     protected static ?string $model = ServiceOffer::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-square-3-stack-3d';
     protected static ?string $navigationGroup = 'Service';
+    protected static ?string $navigationLabel = 'Offers';
 
     protected static ?int $navigationSort = 3;
     public static function form(Form $form): Form

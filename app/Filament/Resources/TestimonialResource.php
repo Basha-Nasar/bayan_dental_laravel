@@ -2,22 +2,24 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\LocationResource\Pages;
-use App\Filament\Resources\LocationResource\RelationManagers;
-use App\Models\Location;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Models\Testimonial;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
+use Yepsua\Filament\Forms\Components\Rating;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\TestimonialResource\Pages;
+use App\Filament\Resources\TestimonialResource\RelationManagers;
+use Yepsua\Filament\Tables\Components\RatingColumn;
 
-class LocationResource extends Resource
+class TestimonialResource extends Resource
 {
-    protected static ?string $model = Location::class;
+    protected static ?string $model = Testimonial::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-map-pin';
+    protected static ?string $navigationIcon = 'heroicon-o-star';
 
     public static function form(Form $form): Form
     {
@@ -29,17 +31,13 @@ class LocationResource extends Resource
                 Forms\Components\TextInput::make('name_ar')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('address_en')
+                Forms\Components\TextInput::make('review_en')
+                    ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('address_ar')
+                Forms\Components\TextInput::make('review_ar')
+                    ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('working_en')
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('working_ar')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('latlong')
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('video'),
+                Rating::make('ratings'),
 
             ]);
     }
@@ -47,15 +45,18 @@ class LocationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->reorderable('sort')->defaultSort('sort')
             ->columns([
+
                 Tables\Columns\TextColumn::make('name_en')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name_ar')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('address_en')
+                Tables\Columns\TextColumn::make('review_en')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('address_ar')
+                Tables\Columns\TextColumn::make('review_ar')
                     ->searchable(),
+
                 Tables\Columns\ToggleColumn::make('is_active'),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
@@ -93,9 +94,9 @@ class LocationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListLocations::route('/'),
-            'create' => Pages\CreateLocation::route('/create'),
-            'edit' => Pages\EditLocation::route('/{record}/edit'),
+            'index' => Pages\ListTestimonials::route('/'),
+            'create' => Pages\CreateTestimonial::route('/create'),
+            'edit' => Pages\EditTestimonial::route('/{record}/edit'),
         ];
     }
 }
