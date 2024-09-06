@@ -26,9 +26,10 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->profile(isSimple: false)
             ->font('Inter', provider: GoogleFontProvider::class)
             ->brandLogo(asset('images/logo.png'))
-            ->brandLogoHeight('3rem')
+            ->brandLogoHeight('3.5rem')
             ->favicon(asset('images/logo.png'))
             ->default()
             ->id('admin')
